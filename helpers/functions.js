@@ -126,22 +126,22 @@ const lastXDays = (numberOfDays, monthIndex) => {
  * @returns {array} An array with the total of members whose joined for each day
  */
 const joinedXDays = (numberOfDays, members) => {
-    // Final result
+   
     const days = [];
-    // Pointer
+    
     let lastDate = 0;
-    // Sort the members by their joined date
+    
     members = members.sort((a,b) => b.joinedTimestamp - a.joinedTimestamp);
     for (let i = 0; i < numberOfDays; i++) {
         const date = new Date();
         date.setDate(date.getDate() - i);
-        // For each member in the server
+      
         members.forEach((member) => {
-            // Get the joinedDate
+            
             const joinedDate = new Date(member.joinedTimestamp);
-            // If the joinedDate is the same as the date which we are testing
+            
             if (isSameDay(joinedDate, date)){
-                // If the last item in the array is not the same day counter
+                
                 if (lastDate !== joinedDate.getDate()){
                     lastDate = joinedDate.getDate();
                     days.push(1);
@@ -151,7 +151,7 @@ const joinedXDays = (numberOfDays, members) => {
                 }
             }
         });
-        // If nobody joins this day, set to 0
+       
         if (days.length < i) days.push(0);
     }
     return days.reverse();

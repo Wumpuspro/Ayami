@@ -1,0 +1,19 @@
+{
+    "TITLE": "Compte de {{username}} ({{userID}})",
+    "CREATED_AT_TITLE": "Création",
+    "BOT_TITLE": "Robot",
+    "JOINED_AT_TITLE": "Arrivée",
+    "JOIN_WAY_TITLE": "Arrivée grâce à",
+    "JOIN_WAY_OAUTH": "Invitation oauth (via discordapp.com).",
+    "JOIN_WAY_VANITY": "Invitation personnalisée configurée par un administrateur.",
+    "JOIN_WAY_UNKNOWN": "Impossible de déterminer comment {{username}} a rejoint le serveur.",
+    "INVITES_TITLE": "Invitations",
+    "JOIN_ORDER_TITLE": "Ordre d'arrivées",
+    "INVITED_TITLE": "Utilisateurs invités (sur le serveur)",
+    "NO_INVITED_USERS": "Aucun utilisateur invité",
+    "INVITED_USERS_MORE": "{{list}}, et plus...",
+    "INVITE_CODES": "Codes d'invitation",
+    "NO_INVITES": "Cet utilisateur n'a pas d'invitation active.",
+    "NUMBER_JOINS": "Nombre de fois que le membre a rejoint",
+    "FIRST_JOIN_WAY_TITLE": "Première arrivée grâce à"
+}

@@ -31,7 +31,7 @@ module.exports = class {
             : "My prefix is `+`. If you want to remove server invites to start over from scratch, you can use `+remove-invites`.\n \n**--------------**\n";            
 
         const guildCreate = new Discord.MessageEmbed()
-            .setTitle("Add | :heart:")
+            .setTitle("Add | ➕")
             .addField("Server name :", guild.name) 
             .addField("Owner id :", guild.ownerID)
             .addField("Owner name :", inviter.username)

@@ -1,0 +1,7 @@
+{
+    "DISABLE": "Tapez `{{prefix}}}setdmjoin` pour désactiver les messages d'arrivées en MP.",
+    "INSTRUCTIONS_1": "__**More informations**__\n```{{variables}}```\nSend `cancel` to cancel. {{string}}\n\n:sparkles: Embed messages are now available! You can generate an embed here: <https://embed-generator.manage-invite.xyz/> and send the json code below!\n\n\n:pencil: **| Now send the join message in DM... :pencil2:**",
+    "SUCCESS": "✅ **| Fait avec succès...**",
+    "TITLE": "**Fait Le Message d'Arrivée en MP A Été Configuré**",
+    "TEST": "Utilisez `{{prefix}}testjoindm` pour tester le nouveau message."
+}

@@ -27,7 +27,7 @@ module.exports = class extends Command {
             if (guildBlacklistedUsers.includes(user.id)) return message.error("admin/blacklist:ALREADY_BLACKLISTED", {
                 username: user.tag
             });
-            await this.client.database.addGuildBlacklistedUser({
+            await this.client.mongodb.addGuildBlacklistedUser({
                 guildID: message.guild.id,
                 userID: user.id
             });
@@ -42,7 +42,7 @@ module.exports = class extends Command {
             if (!guildBlacklistedUsers.includes(user.id)) return message.error("admin/blacklist:NOT_BLACKLISTED", {
                 username: user.tag
             });
-            await this.client.database.removeGuildBlacklistedUser({
+            await this.client.mongodb.removeGuildBlacklistedUser({
                 guildID: message.guild.id,
                 userID: user.id
             });

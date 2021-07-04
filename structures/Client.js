@@ -97,13 +97,13 @@ class ManageInvite extends Client {
     async resolveMember (search, guild){
         let member = null;
         if (!search || typeof search !== "string") return;
-        // Try ID search
+        
         if (search.match(/^<@!?(\d+)>$/)){
             const id = search.match(/^<@!?(\d+)>$/)[1];
             member = await guild.members.fetch(id).catch(() => {});
             if (member) return member;
         }
-        // Try username search
+        
         if (search.match(/^!?([^#]+)#(\d+)$/)){
             await guild.members.fetch();
             member = guild.members.cache.find((m) => m.user.tag === search);

@@ -5,7 +5,7 @@ const { Client, Collection, Intents } = require("discord.js"),
 const DatabaseHandler = require("@manage-invite/manage-invite-db-client");
 
 
-class ManageInvite extends Client {
+class Ayami extends Client {
 
     constructor () {
         super({

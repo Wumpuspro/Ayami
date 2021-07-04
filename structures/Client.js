@@ -24,40 +24,40 @@ class ManageInvite extends Client {
                 repliedUser: true
             }
         });
-        // Config
-        this.config = require("../config"); // Load the config file
-        this.permLevels = require("../helpers/permissions"); // Load permissions file
-        this.enabledLanguages = require("../languages.json"); // Load languages file
-        // Commands
-        this.commands = new Collection(); // Creates new commands collection
-        this.aliases = new Collection(); // Creates new command aliases collection
-        // Utils
+        
+        this.config = require("../config"); 
+        this.permLevels = require("../helpers/permissions"); 
+        this.enabledLanguages = require("../languages.json"); 
+        
+        this.commands = new Collection(); 
+        this.aliases = new Collection(); 
+        
         this.log = require("../helpers/logger");
-        this.functions = require("../helpers/functions"); // Load the functions filec
-        this.wait = util.promisify(setTimeout); // client.wait(1000) - Wait 1 second
-        // Invitations data
+        this.functions = require("../helpers/functions"); 
+        this.wait = util.promisify(setTimeout); 
+        
         this.invitations = {};
         this.fetched = false;
         this.fetching = false;
-        // Databases
-        this.database = new DatabaseHandler(this.config.redis, this.config.postgres, this.log);
-        // Dashboard
+        
+        this.database = new DatabaseHandler(this.config.mongodb, this.log);
+        
         this.ipc = require("../helpers/ipc-client");
         this.states = {};
         this.spawned = false;
         this.knownGuilds = [];
-        // Sync ranks tasks
+        
         this.syncRanksTasks = {};
-        // Cache
+       
         this.guildsCreated = 0;
         this.guildsDeleted = 0;
         this.commandsRan = 0;
         this.pgQueries = 0;
-        // Waiting for verifications guilds ID
+        
         this.waitingForVerification = [];
     }
 
-    // This function is used to load a command and add it to the collection
+    
     loadCommand (commandPath, commandName) {
         try {
             const props = new (require(`.${commandPath}${path.sep}${commandName}`))(this);
@@ -76,7 +76,7 @@ class ManageInvite extends Client {
         }
     }
 
-    // This function is used to unload a command (you need to load them again)
+  
     async unloadCommand (commandPath, commandName) {
         let command;
         if (this.commands.has(commandName)) {

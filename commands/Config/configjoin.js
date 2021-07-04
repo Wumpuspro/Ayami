@@ -15,7 +15,7 @@ module.exports = class extends Command {
 
     async run (message, args, data) {
 
-        const guildPlugins = await this.client.database.fetchGuildPlugins(message.guild.id);
+        const guildPlugins = await this.client.mongodb.fetchGuildPlugins(message.guild.id);
         const plugin = guildPlugins.find((p) => p.pluginName === "join")?.pluginData;
 
         const filter = (m) => m.author.id === message.author.id,
@@ -64,7 +64,7 @@ module.exports = class extends Command {
             .setFooter(data.footer);
         message.channel.send({ embeds: [embed] });
 
-        await this.client.database.updateGuildPlugin(message.guild.id, "join", {
+        await this.client.mongodb.updateGuildPlugin(message.guild.id, "join", {
             ...(plugin || {}),
             enabled: true,
             mainMessage: confMessage,

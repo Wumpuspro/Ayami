@@ -2,7 +2,7 @@
   "name": "Ayami",
   "version": "1.0.0",
   "description": "",
-  "main": "sharder.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "^6.8.0",
+    "bufferutil": "^4.0.3",
+    "chalk": "^4.1.1",
+    "chart.js": "^3.4.0",
+    "chartjs-node-canvas": "^3.2.0",
+    "cron": "^1.8.2",
+    "discord-paginationembed": "^2.1.0",
+    "fs": "0.0.1-security",
+    "i18next": "^20.3.2",
+    "i18next-fs-backend": "^1.1.1",
     "markdown-table": "^3.0.1",
     "mongoose": "^5.13.2"
   }

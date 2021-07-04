@@ -19,5 +19,5 @@ module.exports = {
     premiumRole:    "861108152010014790",
     supportServer:  "https://discord.gg/ntxtVBA6re",
     sentryDSN:      "XXXXXXXXXXX",
-    mongodb: "",
+    mongodb: "mongodb+srv://beta-test:1234S978@classic.as7wj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
 };

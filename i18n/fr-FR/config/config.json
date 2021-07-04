@@ -1,0 +1,10 @@
+{
+    "TITLE": "Configuration de {{guild}}",
+    "JOIN_TITLE": "{{status}} Messages d'arrivées",
+    "JOIN_CONTENT": "> Activé: {{enabled}}\n> Message: {{message}}\n> Salon: {{channel}}",
+    "LEAVE_TITLE": "{{status}} Messages de départs",
+    "JOIN_DM_TITLE": "{{status}} Messages d'arrivées en MP",
+    "JOIN_DM_CONTENT": "> Activé: {{enabled}}\n> Message: {{message}}",
+    "CHANNEL_NOT_FOUND": "**salon non trouvé**",
+    "STORAGE_TITLE": "Current Storage ID"
+}

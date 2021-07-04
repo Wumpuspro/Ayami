@@ -21,8 +21,8 @@ module.exports = class {
             guildSettings,
             guildSubscriptions
         ] = await Promise.all([
-            this.client.database.fetchGuildSettings(message.guild.id),
-            this.client.database.fetchGuildSubscriptions(message.guild.id)
+            this.client.mongodb.fetchGuildSettings(message.guild.id),
+            this.client.mongodb.fetchGuildSubscriptions(message.guild.id)
         ]);
         message.guild.settings = guildSettings;
         const isPremium = guildSubscriptions.some((sub) => new Date(sub.expiresAt).getTime() > (Date.now()-3*24*60*60*1000));

@@ -19,8 +19,8 @@ module.exports  = class extends Command {
         const showIDs = message.content.includes("-id");
 
         const [blacklistedUsers, membersData] = await Promise.all([
-            this.client.database.fetchGuildBlacklistedUsers(message.guild.id),
-            this.client.database.fetchGuildLeaderboard(message.guild.id, message.guild.settings.storageID)
+            this.client.mongodb.fetchGuildBlacklistedUsers(message.guild.id),
+            this.client.mongodb.fetchGuildLeaderboard(message.guild.id, message.guild.settings.storageID)
         ]);
 
         let members = [];

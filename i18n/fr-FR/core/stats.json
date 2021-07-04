@@ -1,0 +1,19 @@
+{
+    "TITLE": "Arrivées sur {{server}} ces {{days}} derniers jours",
+    "CONTENT": "**{{total}}** membres (c'est à dire **{{percent}}%** du serveur) ont rejoint le serveur du {{from}} au {{to}}:",
+    "INVALID": "Vous devez saisir un nombre de jours valide (supérieur à 1 et inférieur à 1000) pour être affiché !",
+    "months": [
+        "Janv",
+        "Fév",
+        "Mars",
+        "Avr",
+        "Mai",
+        "Juin",
+        "Juillet",
+        "Août",
+        "Sept",
+        "Oct",
+        "Nov",
+        "Déc"
+    ]
+}

@@ -2,3 +2,9 @@
 
 > Bot on development
 
+**Next Features**
+
+Giveaways
+
+
+

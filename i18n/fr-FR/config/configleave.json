@@ -1,0 +1,8 @@
+{
+    "DISABLE": "Tapez `{{prefix}}setleave` pour désactiver les messages de départs",
+    "INSTRUCTIONS_1": "__**More informations**__\n```{{variables}}```\nSend `cancel` to cancel. {{string}}\n\n:sparkles: Embed messages are now available! You can generate an embed here: <https://embed-generator.manage-invite.xyz/> and send the json code below!\n\n\n:pencil: **| Now send the leave message... :pencil2:**",
+    "INSTRUCTIONS_2": ":scroll: **| Now send the leave channel name or mention it... :pencil2:**",
+    "TITLE": "**Le message de départ a bien été mis en place**",
+    "TEST": "Utilisez `{{prefix}}testleave` pour tester le nouveau message.",
+    "CHANNEL_NOT_FOUND": "Aucun salon trouvé pour `{{channel}}`"
+}

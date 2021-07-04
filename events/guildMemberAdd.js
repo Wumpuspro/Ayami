@@ -30,10 +30,10 @@ module.exports = class {
             guildPlugins,
             guildAlerts
         ] = await Promise.all([
-            this.client.database.fetchGuildSettings(member.guild.id),
-            this.client.database.fetchGuildBlacklistedUsers(member.guild.id),
-            this.client.database.fetchGuildPlugins(member.guild.id),
-            this.client.database.fetchGuildAlerts(member.guild.id)
+            this.client.mongodb.fetchGuildSettings(member.guild.id),
+            this.client.mongodb.fetchGuildBlacklistedUsers(member.guild.id),
+            this.client.mongodb.fetchGuildPlugins(member.guild.id),
+            this.client.mongodb.fetchGuildAlerts(member.guild.id)
         ]);
         logMessage += `Fetch guild data: ${Date.now()-fetchGuildStartAt}ms\n`;
 
@@ -131,7 +131,7 @@ module.exports = class {
 
             if (inviterData.notCreated) {
                 const createMemberStart = Date.now();
-                await this.client.database.createGuildMember({
+                await this.client.mongodb.createGuildMember({
                     userID: inviter.id,
                     guildID: member.guild.id,
                     storageID: guildSettings.storageID
@@ -159,7 +159,7 @@ module.exports = class {
                     });
                     inviterData.leaves--;
                     newInviteCount++;
-                    this.client.database.addInvites({
+                    this.client.mongodb.addInvites({
                         userID: inviter.id,
                         guildID: member.guild.id,
                         storageID: guildSettings.storageID,
@@ -169,7 +169,7 @@ module.exports = class {
                     inviterData.fake++;
                     newInviteCount--;
                 } else if (inviter.id === member.id) {
-                    this.client.database.addInvites({
+                    this.client.mongodb.addInvites({
                         userID: inviter.id,
                         guildID: member.guild.id,
                         storageID: guildSettings.storageID,
@@ -184,7 +184,7 @@ module.exports = class {
                         const inThreshold = (member.user.createdTimestamp + (fakeThreshold * 24 * 60 * 60 * 1000)) > Date.now();
                         if (inThreshold) {
                             joinFake = true;
-                            this.client.database.addInvites({
+                            this.client.mongodb.addInvites({
                                 userID: inviter.id,
                                 guildID: member.guild.id,
                                 storageID: guildSettings.storageID,
@@ -198,7 +198,7 @@ module.exports = class {
                 }
             }
 
-            this.client.database.addInvites({
+            this.client.mongodb.addInvites({
                 userID: inviter.id,
                 guildID: member.guild.id,
                 storageID: guildSettings.storageID,
@@ -217,7 +217,7 @@ module.exports = class {
                 }
             }
 
-            this.client.database.createGuildMemberEvent({
+            this.client.mongodb.createGuildMemberEvent({
                 userID: member.id,
                 guildID: member.guild.id,
                 eventType: "join",
@@ -244,7 +244,7 @@ module.exports = class {
                 storageID: guildSettings.storageID
             });
         } else if (vanity){
-            this.client.database.createGuildMemberEvent({
+            this.client.mongodb.createGuildMemberEvent({
                 userID: member.id,
                 guildID: member.guild.id,
                 eventType: "join",
@@ -253,7 +253,7 @@ module.exports = class {
                 storageID: guildSettings.storageID
             });
         } else if (perm){
-            this.client.database.createGuildMemberEvent({
+            this.client.mongodb.createGuildMemberEvent({
                 userID: member.id,
                 guildID: member.guild.id,
                 eventType: "join",
@@ -262,7 +262,7 @@ module.exports = class {
                 storageID: guildSettings.storageID
             });
         } else {
-            this.client.database.createGuildMemberEvent({
+            this.client.mongodb.createGuildMemberEvent({
                 userID: member.id,
                 guildID: member.guild.id,
                 eventType: "join",

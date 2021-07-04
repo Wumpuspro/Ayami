@@ -22,7 +22,7 @@ const asyncForEach = async (array, callback) => {
 const syncPremiumRoles = (client) => {
     client.shard.broadcastEval((client) => {
         if (client.guilds.cache.has(client.config.supportServer)){
-            client.database.fetchPremiumUserIDs().then((userIDs) => {
+            client.mongodb.fetchPremiumUserIDs().then((userIDs) => {
                 const guild = client.guilds.cache.get(client.config.supportServer);
                 userIDs
                     .filter((r) => guild.members.cache.has(r) && !guild.members.cache.get(r).roles.cache.has(client.config.premiumRole))

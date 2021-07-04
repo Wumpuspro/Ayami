@@ -23,5 +23,4 @@ module.exports = {
         database: "beta-test",
         password: "1234S978",
     }, 
-mongodb: "mongodb+srv://beta-test:1234S978@classic.as7wj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
 };

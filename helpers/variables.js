@@ -1,5 +1,3 @@
-/* aliases are old name of the variables */
-
 module.exports = [
     {
         name: "inviteCount",

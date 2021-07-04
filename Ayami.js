@@ -1,5 +1,5 @@
 if (!process.argv.includes("--sharded")){
-    console.log("Please start ManageInvite with the sharder.js file!");
+    console.log("Please start Ayami with the sharder.js file!");
     process.exit(0);
 }
 
@@ -13,7 +13,6 @@ const mongoose = require("mongoose");
 const Sentry = require("@sentry/node");
 Sentry.init({ dsn: config.sentryDSN });
 
-// Load ManageInvite class
 const Ayami = require("./structures/Client"),
     client = new Ayami();
 
@@ -21,7 +20,7 @@ const init = async () => {
 
     require("./helpers/extenders");
 
-    // Search for all commands
+    / Search for all commands
     const directories = await readdir("./commands/");
     directories.forEach(async (dir) => {
         const commands = await readdir("./commands/"+dir+"/");
@@ -33,7 +32,7 @@ const init = async () => {
         });
     });
 
-    // Then we load events, which will include our message and ready event.
+
     const evtFiles = await readdir("./events/");
     evtFiles.forEach((file) => {
         const eventName = file.split(".")[0];
@@ -49,7 +48,7 @@ const init = async () => {
         client.logger.log("Unable to connect to the Mongodb database. Error:"+err, "error");
     });
 
-    // Gets commands permission
+
     client.levelCache = {};
     for (let i = 0; i < client.permLevels.length; i++) {
         const thisLevel = client.permLevels[parseInt(i, 10)];
@@ -75,13 +74,13 @@ const init = async () => {
 
 init();
 
-// if there are errors, log them
+
 client.on("disconnect", () => client.log("Bot is disconnecting...", "warn"))
     .on("reconnecting", () => client.log("Bot reconnecting...", "log"))
     .on("error", (e) => client.log(e, "error"))
     .on("warn", (info) => client.log(info, "warn"));
 
-// if there is an unhandledRejection, log them
+
 process.on("unhandledRejection", (err) => {
     console.error(err);
 });

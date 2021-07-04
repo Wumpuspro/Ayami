@@ -66,7 +66,7 @@ module.exports = class {
                         const beg = paymentData.subLabel === "Trial Version" ? "Your trial period" : "Your premium subscription";
                         const embed = new Discord.MessageEmbed()
                             .setAuthor(`Hello, ${user.username}`)
-                            .setDescription(`${beg} for **${guildNameFound}** expires in 72 hours! Click [here](https://localhost:3000/manage/${paymentData.guildID}/createsub) to continue to use the bot, the price is $2 per month.`)
+                            .setDescription(`${beg} for **${guildNameFound}** expires in 72 hours! Click [here](https://discord.gg/ntxtVBA6re) to continue to use the bot, dm to owner to buy the price is $2 per month.`)
                             .setColor(Constants.Embed.COLOR)
                             .setFooter(Constants.Embed.FOOTER);
                         const send = () => new Promise((resolve) => user.send({ embeds: [embed] }).then(resolve(true)).catch(resolve(false)));

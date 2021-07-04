@@ -17,7 +17,7 @@ module.exports = class {
         if (!this.client.fetched) return;
 
         // Fetch guild and member data from the db
-        const guildSubscriptions = await this.client.database.fetchGuildSubscriptions(member.guild.id);
+        const guildSubscriptions = await this.client.mongodb.fetchGuildSubscriptions(member.guild.id);
         const isPremium = guildSubscriptions.some((sub) => new Date(sub.expiresAt).getTime() > (Date.now()-3*24*60*60*1000));
         if (!isPremium) return;
 
@@ -29,11 +29,11 @@ module.exports = class {
             guildAlerts,
             memberEvents
         ] = await Promise.all([
-            this.client.database.fetchGuildSettings(member.guild.id),
-            this.client.database.fetchGuildBlacklistedUsers(member.guild.id),
-            this.client.database.fetchGuildPlugins(member.guild.id),
-            this.client.database.fetchGuildAlerts(member.guild.id),
-            this.client.database.fetchGuildMemberEvents({
+            this.client.mongodb.fetchGuildSettings(member.guild.id),
+            this.client.mongodb.fetchGuildBlacklistedUsers(member.guild.id),
+            this.client.mongodb.fetchGuildPlugins(member.guild.id),
+            this.client.mongodb.fetchGuildAlerts(member.guild.id),
+            this.client.mongodb.fetchGuildMemberEvents({
                 userID: member.id,
                 guildID: member.guild.id
             })
@@ -84,7 +84,7 @@ module.exports = class {
             newInviteCount--;
 
             if (lastJoinData.joinFake) {
-                this.client.database.addInvites({
+                this.client.mongodb.addInvites({
                     userID: inviter.id,
                     guildID: member.guild.id,
                     storageID: guildSettings.storageID,
@@ -94,7 +94,7 @@ module.exports = class {
                 inviterData.fake--;
                 newInviteCount++;
             }
-            await this.client.database.createGuildMemberEvent({
+            await this.client.mongodb.createGuildMemberEvent({
                 userID: member.id,
                 guildID: member.guild.id,
                 eventType: "leave",

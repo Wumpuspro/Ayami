@@ -37,7 +37,7 @@ module.exports = class extends Command {
             .addField(message.translate("core/botinfos:STATS_TITLE"), message.translate("core/botinfos:STATS_CONTENT", {
                 guilds: guildsCount,
                 users: usersCount,
-                keys: await this.client.database.redis.getStats()
+                keys: await this.client.mongodb.getStats()
             }), true)
             .addField(message.translate("core/botinfos:VERSIONS_TITLE"), message.translate("core/botinfos:VERSIONS_CONTENT", {
                 discord: Discord.version,

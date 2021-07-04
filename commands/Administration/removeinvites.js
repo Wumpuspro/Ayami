@@ -28,7 +28,7 @@ module.exports = class extends Command {
                 prefix: message.guild.settings.prefix
             }, true);
 
-            await this.client.database.removeGuildInvites(message.guild.id);
+            await this.client.mongodb.removeGuildInvites(message.guild.id);
 
             const embed = new Discord.MessageEmbed()
                 .setAuthor(message.translate("admin/removeinvites:TITLE"))

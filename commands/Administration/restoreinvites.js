@@ -16,7 +16,7 @@ module.exports = class extends Command {
     async run (message, args, data) {
 
         const member = args[0] ? await this.client.resolveMember(args.join(" "), message.guild) : null;
-        if (member) member.data = await this.client.database.fetchGuildMember({
+        if (member) member.data = await this.client.mongodb.fetchGuildMember({
             userID: member.id,
             guildID: message.guild.id
         });
@@ -25,7 +25,7 @@ module.exports = class extends Command {
             const m = await message.sendT("misc:PLEASE_WAIT", {
                 loading: Constants.Emojis.LOADING
             });
-            memberCount = await this.client.database.countGuildInvites(message.guild.id, message.guild.settings.storageID);
+            memberCount = await this.client.mongodb.countGuildInvites(message.guild.id, message.guild.settings.storageID);
             if (!memberCount) {
                 return message.error("admin/restoreinvites:NO_BACKUP");
             }

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Wumpus",
   "license": "ISC",
   "dependencies": {
     "@sentry/node": "^6.8.0",

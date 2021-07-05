@@ -2,7 +2,7 @@ const { Client, Collection, Intents } = require("discord.js"),
     util = require("util"),
     path = require("path");
 
-const DatabaseHandler = require("@manage-invite/manage-invite-db-client");
+const { Database } = require('quickmongo');
 
 
 class Ayami extends Client {
@@ -40,7 +40,7 @@ class Ayami extends Client {
         this.fetched = false;
         this.fetching = false;
         
-        this.database = new DatabaseHandler(this.config.mongodb, this.log);
+        this.database = new Database(this.config.mongodb, this.log);
         
         this.ipc = require("../helpers/ipc-client");
         this.states = {};

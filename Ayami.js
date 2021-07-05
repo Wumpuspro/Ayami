@@ -6,34 +6,36 @@ if (!process.argv.includes("--sharded")){
 const util = require("util"),
     fs = require("fs"),
     readdir = util.promisify(fs.readdir);
+   mongoose = require("mongoose");
+   Discord = require("discord.js");
+
 
 const Constants = require("./helpers/constants");
 const config = require("./config.js");
-const mongoose = require("mongoose");
 const Sentry = require("@sentry/node");
 Sentry.init({ dsn: config.sentryDSN });
 
+
 const Ayami = require("./structures/Client"),
-    client = new Ayami();
+    client = new  Ayami();
 
 const init = async () => {
 
     require("./helpers/extenders");
-
-    / Search for all commands
-    const directories = await readdir("./commands/");
+ 
+     let directories = await readdir("./commands/");
     directories.forEach(async (dir) => {
-        const commands = await readdir("./commands/"+dir+"/");
+        let commands = await readdir("./commands/"+dir+"/");
         commands.filter((cmd) => cmd.split(".").pop() === "js").forEach((cmd) => {
             const response = client.loadCommand("./commands/"+dir, cmd);
-            if (response){
-                client.log(response, "error");
+            if(response){
+                client.logger.log(response, "error");
             }
         });
     });
 
 
-    const evtFiles = await readdir("./events/");
+     const evtFiles = await readdir("./events/");
     evtFiles.forEach((file) => {
         const eventName = file.split(".")[0];
         const event = new (require(`./events/${file}`))(client);
@@ -44,11 +46,11 @@ const init = async () => {
     const i18n = require("./helpers/i18n");
     client.translations = await i18n();
 
-    mongoose.connect(client.config.mongodb, { useNewUrlParser: true, useUnifiedTopology: true }).catch((err) => {
+        mongoose.connect(client.config.mongodb, { useNewUrlParser: true, useUnifiedTopology: true }).catch((err) => {
         client.logger.log("Unable to connect to the Mongodb database. Error:"+err, "error");
     });
 
-
+    
     client.levelCache = {};
     for (let i = 0; i < client.permLevels.length; i++) {
         const thisLevel = client.permLevels[parseInt(i, 10)];

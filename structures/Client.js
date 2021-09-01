@@ -2,10 +2,11 @@ const { Client, Collection, Intents } = require("discord.js"),
     util = require("util"),
     path = require("path");
 
-const { Database } = require('quickmongo');
+const synchronizeSlashCommands = require("discord-sync-commands");
+const DatabaseHandler = require("adequate-db-client");
 
-
-class Ayami extends Client {
+// Creates ManageInvite class
+class ManageInvite extends Client {
 
     constructor () {
         super({
@@ -24,40 +25,42 @@ class Ayami extends Client {
                 repliedUser: true
             }
         });
-        
-        this.config = require("../config"); 
-        this.permLevels = require("../helpers/permissions"); 
-        this.enabledLanguages = require("../languages.json"); 
-        
-        this.commands = new Collection(); 
-        this.aliases = new Collection(); 
-        
+        // Config
+        this.config = require("../config"); // Load the config file
+        this.permLevels = require("../helpers/permissions"); // Load permissions file
+        this.enabledLanguages = require("../languages.json"); // Load languages file
+        // Commands
+        this.commands = new Collection(); // Creates new commands collection
+        this.aliases = new Collection(); // Creates new command aliases collection
+        // Utils
         this.log = require("../helpers/logger");
-        this.functions = require("../helpers/functions"); 
-        this.wait = util.promisify(setTimeout); 
-        
+        this.functions = require("../helpers/functions"); // Load the functions filec
+        this.wait = util.promisify(setTimeout); // client.wait(1000) - Wait 1 second
+        // Invitations data
         this.invitations = {};
         this.fetched = false;
         this.fetching = false;
-        
-        this.database = new Database(this.config.mongodb, this.log);
-        
+        // Databases
+        this.database = new DatabaseHandler(this.config.redis, this.config.postgres, this.log);
+        // Dashboard
         this.ipc = require("../helpers/ipc-client");
         this.states = {};
         this.spawned = false;
         this.knownGuilds = [];
-        
+        // Sync ranks tasks
         this.syncRanksTasks = {};
-       
+        // Cache
         this.guildsCreated = 0;
         this.guildsDeleted = 0;
         this.commandsRan = 0;
         this.pgQueries = 0;
-        
+        // Waiting for verifications guilds ID
         this.waitingForVerification = [];
+        // cooldown
+        this.cooldownedUsers = new Collection();
     }
 
-    
+    // This function is used to load a command and add it to the collection
     loadCommand (commandPath, commandName) {
         try {
             const props = new (require(`.${commandPath}${path.sep}${commandName}`))(this);
@@ -76,7 +79,14 @@ class Ayami extends Client {
         }
     }
 
-  
+    async synchronizeSlashCommands () {
+        const commands = this.commands.filter((c) => c.slashCommandOptions);
+        const guildID = this.config.slashCommandsGuildID;
+        const fetchOptions = guildID ? { debug: true, guildId: guildID } : { debug: true };
+        return synchronizeSlashCommands(this, commands.map((c) => c.slashCommandOptions), fetchOptions);
+    }
+
+    // This function is used to unload a command (you need to load them again)
     async unloadCommand (commandPath, commandName) {
         let command;
         if (this.commands.has(commandName)) {
@@ -97,13 +107,13 @@ class Ayami extends Client {
     async resolveMember (search, guild){
         let member = null;
         if (!search || typeof search !== "string") return;
-        
+        // Try ID search
         if (search.match(/^<@!?(\d+)>$/)){
             const id = search.match(/^<@!?(\d+)>$/)[1];
             member = await guild.members.fetch(id).catch(() => {});
             if (member) return member;
         }
-        
+        // Try username search
         if (search.match(/^!?([^#]+)#(\d+)$/)){
             await guild.members.fetch();
             member = guild.members.cache.find((m) => m.user.tag === search);
@@ -133,13 +143,12 @@ class Ayami extends Client {
         return user;
     }
 
-    getLevel (message) {
+    getLevel (member) {
         let permlvl = 0;
         const permOrder = this.permLevels.slice(0).sort((p, c) => p.level < c.level ? 1 : -1);
         while (permOrder.length) {
             const currentLevel = permOrder.shift();
-            if (message.guild && currentLevel.guildOnly) continue;
-            if (currentLevel.check(message)) {
+            if (currentLevel.check(member)) {
                 permlvl = currentLevel.level;
                 break;
             }
@@ -148,4 +157,4 @@ class Ayami extends Client {
     }
 }
 
-module.exports = Ayami;
+module.exports = ManageInvite;

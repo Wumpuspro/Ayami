@@ -9,6 +9,26 @@ const variables = require("./variables");
 const stringOrNull = (string) => string ? `'${string}'` : "null";
 const pgEscape = (string) => string ? string.replace(/'/g, "''") : null;
 
+const inviteToJson = (invite) => {
+    return {
+        code: invite.code,
+        uses: invite.uses,
+        maxUses: invite.maxUses,
+        inviter: invite.inviter,
+        channel: invite.channel,
+        url: invite.url
+    };
+};
+
+
+const generateInvitesCache = (invitesCache) => {
+    const cacheCollection = new Discord.Collection();
+    invitesCache.forEach((invite) => {
+        cacheCollection.set(invite.code, inviteToJson(invite));
+    });
+    return cacheCollection;
+};
+
 /**
  * @param {array} array The array to loop
  * @param {function} callback The callback function to call each time
@@ -22,7 +42,7 @@ const asyncForEach = async (array, callback) => {
 const syncPremiumRoles = (client) => {
     client.shard.broadcastEval((client) => {
         if (client.guilds.cache.has(client.config.supportServer)){
-            client.mongodb.fetchPremiumUserIDs().then((userIDs) => {
+            client.database.fetchPremiumUserIDs().then((userIDs) => {
                 const guild = client.guilds.cache.get(client.config.supportServer);
                 userIDs
                     .filter((r) => guild.members.cache.has(r) && !guild.members.cache.get(r).roles.cache.has(client.config.premiumRole))
@@ -126,22 +146,22 @@ const lastXDays = (numberOfDays, monthIndex) => {
  * @returns {array} An array with the total of members whose joined for each day
  */
 const joinedXDays = (numberOfDays, members) => {
-   
+    // Final result
     const days = [];
-    
+    // Pointer
     let lastDate = 0;
-    
+    // Sort the members by their joined date
     members = members.sort((a,b) => b.joinedTimestamp - a.joinedTimestamp);
     for (let i = 0; i < numberOfDays; i++) {
         const date = new Date();
         date.setDate(date.getDate() - i);
-      
+        // For each member in the server
         members.forEach((member) => {
-            
+            // Get the joinedDate
             const joinedDate = new Date(member.joinedTimestamp);
-            
+            // If the joinedDate is the same as the date which we are testing
             if (isSameDay(joinedDate, date)){
-                
+                // If the last item in the array is not the same day counter
                 if (lastDate !== joinedDate.getDate()){
                     lastDate = joinedDate.getDate();
                     days.push(1);
@@ -151,7 +171,7 @@ const joinedXDays = (numberOfDays, members) => {
                 }
             }
         });
-       
+        // If nobody joins this day, set to 0
         if (days.length < i) days.push(0);
     }
     return days.reverse();
@@ -214,11 +234,16 @@ const formatDate = (dateToFormat, format, locale) => {
  * @param {string} content The content to send
  */
 const sendStatusWebhook = (content) => {
-    const webhook = new Discord.WebhookClient(config.statusWebhook.id, config.statusWebhook.token);
+    const webhook = new Discord.WebhookClient({
+        id: config.statusWebhook.id,
+        token: config.statusWebhook.token
+    });
     return webhook.send(content);
 };
 
 module.exports = {
+    inviteToJson,
+    generateInvitesCache,
     stringOrNull,
     pgEscape,
     asyncForEach,
